@@ -4,3 +4,9 @@
   grid-gap: 16px;
   padding-bottom: 24px;
 }
+.error {
+  font-size: 28px;
+  letter-spacing: 0.4rem;
+  text-align: center;
+  color: #0c721a;
+}

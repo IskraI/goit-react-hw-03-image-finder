@@ -4,7 +4,7 @@ import Searchbar from './Searchbar/Searchbar';
 import ImageGallery from './ImageGallery/ImageGallery';
 import Button from '../components/Button/Button';
 import Loader from '../components/Loader/Loader';
-import Modal from '../components/Modal/Modal';
+
 import * as ImageService from '../service/image-service';
 class App extends Component {
   state = {
@@ -16,7 +16,6 @@ class App extends Component {
     error: null,
     showGallery: false,
     isLoading: false,
-    showModal: false,
   };
   componentDidUpdate(prevProps, prevState) {
     const { query, page } = this.state;
@@ -35,13 +34,10 @@ class App extends Component {
       error: null,
       showGallery: false,
       isLoading: false,
-      showModal: false,
     });
     // console.log(data);
   };
-  toogleModal = () => {
-    this.setState(({ showModal }) => ({ showModal: !showModal }));
-  };
+
   getImage = async (query, page) => {
     this.setState({ isLoading: true });
     try {
@@ -72,21 +68,20 @@ class App extends Component {
   };
 
   render() {
-    const { images, totalResults, showGallery, error, isLoading, showModal } =
-      this.state;
+    const { images, totalResults, showGallery, error, isLoading } = this.state;
     return (
       <div className={css.app}>
         <Searchbar onSubmit={this.handleSubmit} />
-        {showGallery && <p>Sorry. There are no images ... 😭</p>}
-        {error && <p>Sorry. There are {error} 😭</p>}
+        {showGallery && (
+          <p className={css.error}>Sorry. There are no images ... 😭</p>
+        )}
+        {error && <p className={css.error}>Sorry. There are {error} 😭</p>}
 
         {isLoading && <Loader />}
         {images.length > 0 && <ImageGallery dataGallery={this.state.images} />}
         {images.length > 0 && images.length < totalResults && (
           <Button onClick={this.handleLoadMore} looktext={isLoading}></Button>
         )}
-
-        {showModal && <Modal onClose={this.toogleModal}> ffff </Modal>}
       </div>
     );
   }
